@@ -1,11 +1,13 @@
-def detect_intent(text: str) -> str:
-    text = text.lower()
+def detect_intent(message: str) -> str:
+    msg = message.lower()
 
-    if "price" in text or "cost" in text:
-        return "sales"
-    if "support" in text or "help" in text:
-        return "support"
-    if "book" in text or "appointment" in text:
+    if "book" in msg or "appointment" in msg:
         return "booking"
+    if "price" in msg or "buy" in msg:
+        return "sales"
+    if "problem" in msg or "help" in msg:
+        return "support"
+    if "complain" in msg:
+        return "complaint"
 
     return "unknown"

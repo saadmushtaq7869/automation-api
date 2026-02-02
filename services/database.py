@@ -1,21 +1,20 @@
-from pymongo import MongoClient
-import os
-import certifi
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, declarative_base
 
-MONGO_URL = os.getenv("MONGO_URL")
+DATABASE_URL = "sqlite:///./automation.db"
 
-if not MONGO_URL:
-    raise Exception("MONGO_URL is NOT SET")
-
-client = MongoClient(
-    MONGO_URL,
-    tls=True,
-    tlsCAFile=certifi.where(),
-    serverSelectionTimeoutMS=5000
+engine = create_engine(
+    DATABASE_URL, connect_args={"check_same_thread": False}
 )
 
-# ✅ DATABASE NAME (IMPORTANT)
-db = client["automation"]
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# ✅ THIS MUST EXIST
-companies_collection = db["companies"]
+Base = declarative_base()
+
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
