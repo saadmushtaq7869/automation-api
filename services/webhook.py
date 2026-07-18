@@ -3,7 +3,7 @@ from services.database import SessionLocal
 from webhook_log import WebhookLog
 
 # For now, we use a fake webhook tester
-WEBHOOK_URL = "https://webhook.site/73396ee6-f55e-4e0b-bf9c-3a1c0f78911b"
+WEBHOOK_URL = ""
 
 def send_webhook(company_id: str, payload: dict):
     db = SessionLocal()
